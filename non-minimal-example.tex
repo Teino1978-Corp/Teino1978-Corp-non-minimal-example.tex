@@ -1,0 +1,469 @@
+\documentclass[article,a4paper,12pt,twoside]{memoir}
+%% We require ``twoside'' in order for the left/right pages to have different headers
+%% But this then requires us to solve some problems with margin pars not showing up
+%% That
+
+%% For double spacing
+\DisemulatePackage{setspace}
+\usepackage{setspace}
+
+%% For turning off hyphenation globally
+% \usepackage[none]{hyphenat}
+\usepackage{hyphenat}
+
+\usepackage{amsmath}
+\usepackage[MnSymbol]{mathspec}
+\setmathsfont(Digits,Latin,Greek)[Numbers={Lining,Proportional}]{Linux Libertine O}
+\setminwhitespace % not sure if this helps
+\setmathrm{Linux Biolinum O}
+
+\usepackage{xunicode}
+%\defaultfontfeatures{Mapping=tex-text}
+\setmainfont[Mapping= tex-text,
+  SmallCapsFont={Linux Libertine O},
+  SmallCapsFeatures= {Color=FF2400, RawFeature={+smcp,+hlig,+dlig}}]{Linux Libertine O}
+
+\usepackage{metalogo}
+
+% This gets around having too few math fonts in a cheap way.
+% However you can't just copy and paste mathcal stuff
+% Not sure why!
+\newfontfamily\calligraphicfont{Linux Biolinum Shadow O}
+\newcommand\calP{\text{\calligraphicfont P}}
+\newcommand\calU{\text{\calligraphicfont U}}
+\newcommand\calV{\text{\calligraphicfont V}}
+\newcommand\calF{\text{\calligraphicfont F}}
+
+% Fun colors and ligatures - maybe too fun
+%% \setmainfont[Mapping= tex-text,
+%%     SmallCapsFont={Linux Libertine O},
+%%     SmallCapsFeatures= {Color=000000, RawFeature={+smcp,+hlig,+dlig}},
+%%     BoldFont={Linux Libertine O Bold},
+%%     BoldFeatures={Color = 000000,SmallCapsFont={Linux Libertine Capitals O Bold},%
+%%       SmallCapsFeatures = { Color=70CF14,   RawFeature={+smcp,+hlig,+dlig}} },
+%%     ItalicFont={Linux Libertine O Italic},
+%%     ItalicFeatures={Color = 000000, RawFeature={+liga,+hlig,+dlig}, %
+%%       SmallCapsFont={Linux Libertine Capitals O Italic}, %
+%%       SmallCapsFeatures = {Color=000000,RawFeature={+smcp,+hlig,+dlig}}},
+%%     BoldItalicFont={Linux Libertine O},
+%%     BoldItalicFeatures={ Color = 000000, %
+%%      SmallCapsFont={Linux Libertine Capitals O Bold Italic},  %
+%%      SmallCapsFeatures = { Color=000000,RawFeature={+smcp,+hlig,+dlig}}} ]{Linux Libertine O}
+
+
+\usepackage{placeins}
+\usepackage[super]{natbib}
+\usepackage[perpage,symbol*]{footmisc}
+
+\usepackage{fancyvrb}
+
+%% Use ``ex'' to make the spacing depend on current font, cool!
+\DefineFNsymbols*{safestar}{{$*$}{\textdagger}{\textdaggerdbl}{\textsection}{\textparagraph}{\textbardbl}{$*$\hspace{-.3ex}$*$}{\textdagger\textdagger}{\textdaggerdbl\textdaggerdbl}{\textsection\textsection}{\textparagraph\textparagraph}{\textbardbl\textbardbl}}%
+\setfnsymbol{safestar}
+
+\usepackage[normalem]{ulem}
+\usepackage{tikz}
+
+\usepackage{wrapfig}
+
+ \usepackage{xspace}
+ \makeatletter
+  \def\stex{\raisebox{-.5ex}S\kern-.5ex\TeX\xspace}
+ \makeatother
+ \def\sTeX{\stex}
+
+\newcommand*\myendnote[1]{%
+  % The ``side'' where this goes is set above.
+  % Contrary to page 250 of the memoir manual, it seems the default is ``inner''.
+
+  %%% but Alex and Peter don't seem to think it is that important to have any endnotes
+  %%% in any case, so I'm taking this out for now
+  %\sidepar{\endnote{#1}}
+}
+
+\newcommand*\circled[1]{%
+  \tikz[baseline=(C.base)]\node[draw,circle,inner sep=0.5pt](C) {#1};\!
+}
+
+\newcommand\marktransition{\begin{center}◆\end{center}}
+
+\usepackage{indentfirst}
+\usepackage{marvosym}
+
+\usepackage{rotating}
+
+%%%%
+%% Thesis guidelines:
+%%  your full name and degrees
+%%  the title
+%%  the degree for which it is offered
+%%  the discipline or disciplines to which it pertains
+%%  the date of submission
+%%%%%
+
+%%  inside margin           40 mm
+%%  top and outside margins 15 mm
+%%  bottom margin           20 mm
+
+%% With the ``twoside'' setting for the document class, these
+%% accomplish the above, giving 5mm extra on the outside margin
+%% and 5mm extra for the top margin
+\setlrmarginsandblock{40mm}{20mm}{*}
+\setulmarginsandblock{20mm}{20mm}{*}
+
+%% Another version that's a little more comfortable
+%% but not usable for the standards of the Open University
+% \setlrmarginsandblock{23mm}{23mm}{*}
+% \setulmarginsandblock{23mm}{28mm}{*}
+
+% Parameters here are: { separation }{ width }{ push }
+\setmarginnotes{14pt}{51pt}{\onelineskip}
+\sideparmargin{inner}
+
+\setheadfoot{2\onelineskip}{2\onelineskip}
+\setheaderspaces{*}{5mm}{*}
+
+\chapterstyle{plain}
+
+%%%
+\checkandfixthelayout
+\setsecnumformat{\hspace{-.82in}{\HUGE \thesection}\hspace{.23in}}
+
+%% ``promote'' sections to format them like chapters:
+%% Tip c/o egreg at http://bit.ly/memoir-promote-sections
+\renewcommand{\thesection}{\arabic{section}}
+\makeatletter
+\let\l@section\l@chapter
+\makeatother
+
+%\renewcommand*\thesection{\arabic{section}}
+%\renewcommand*\thesection{\arabic{chapter}}
+
+% following a nice tip from http://bit.ly/SZcZO9
+\strictpagecheck
+\makeatletter
+\newcommand*\ifthispageodd{%
+  \checkoddpage
+  \ifoddpage
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+}
+\makeatother
+
+\usepackage{makeidx}
+\makeindex
+
+\setsecindent{1cm}
+\let\footruleskip\relax % for compatibility of memoir and fancyhdr
+\let\proportional\ttfamily % for compatibility of memoir and blindtext
+\let\sc\scshape
+\let\bf\bfseries
+\let\it\itfamily
+\let\tt\ttfamily
+\let\sl\slshape
+\let\sf\sffamily
+
+% This is the header implementation, it took me a little while to figure out why
+% it works like this!
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LE]{\slshape \thesection.~ \nouppercase{\leftmark}}
+\fancyhead[RO]{\slshape \nouppercase{\rightmark}}
+\fancyhead[RE]{}
+\fancyhead[LO]{}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\DisemulatePackage{moreverb} % compatibility with pdftricks
+
+\parindent = 1.4em
+
+%%% Legacy math stuff
+%\usepackage{makeidx}  % allows for indexgeneration
+%\usepackage{graphicx}
+\newenvironment{qq}
+  {\begin{quote}\noindent}%
+  {\end{quote}}
+
+\newenvironment{cc}
+  {\begin{quote}\noindent}%
+  {\end{quote}}
+
+\newcommand{\openset}{\mathrel{{\mathchoice{\rlap{$\subset$}{\;\scriptscriptstyle\cdot}}%
+   {\rlap{$\subset$}{\;\cdot}}%
+   {\rlap{$\scriptstyle\subset$}{\;\cdot}}%
+   {\rlap{$\scriptscriptstyle\subset$}{\;\cdot}}}}}
+
+%% \newcommand{\sidequote}[1]{
+%% \marginpar{{ \begin{rotate}{270}
+%% \raisebox{4mm}{\HUGE #1}
+%% \end{rotate}
+%% }}}
+
+\newcommand{\sidequote}[1]{}
+
+\let\oldindex\index
+% Actually we won't use this in ``production''
+\renewcommand{\index}[1]{
+\oldindex{#1}
+\ifthispageodd{
+\marginpar{{ \begin{rotate}{270}
+\raisebox{8mm}{\hspace{-5mm}\tiny #1}
+\end{rotate}
+}}}{
+\marginpar{{ \begin{rotate}{90}
+\raisebox{-10mm}{\hspace{-15mm}\tiny #1}
+\end{rotate}
+}}}
+}
+% so let's switch back
+\let\index\oldindex
+
+\newcommand{\Rn}{\mathbf{R}^n}
+\newcounter{123listcolonstylectr}
+
+\newenvironment{123listcolonstyle}{
+\indent \begin{list}{\arabic{123listcolonstylectr}:}{\usecounter{123listcolonstylectr}}}
+{\end{list}\setcounter{123listcolonstylectr}{0}}
+
+\def\defn#1{{\footnotesize \indent
+\begin{123listcolonstyle}
+\setlength{\itemsep}{0em}
+\setlength{\topsep}{0em}
+\setlength{\parsep}{0em} #1 \end{123listcolonstyle}}}
+%%% End of legacy math stuff
+
+%\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{xcolor}         % colors
+\definecolor{scarlet}{HTML}{FF2400}
+
+%% Can use this to make the labels in the back a different font or color
+
+%\makeatletter
+%\renewcommand\@biblabel[1]{{\sc #1.}}
+%\makeatother
+
+\makeatletter
+\renewcommand\@biblabel[1]{#1.}
+\makeatother
+
+\PassOptionsToPackage{hyphens}{url}
+%% frenchlinks here will make all the links show up in small caps font
+\usepackage[frenchlinks, pdfborderstyle={/S/U/W .5},citebordercolor={1 1 1},linkbordercolor={1 1 1},urlbordercolor={1 1 1}]{hyperref}
+
+%% really useful TOC configuration - turn off the far-too-many links!
+\hypersetup{linktocpage}
+
+\def\UrlFont{\tt}
+
+\usepackage{endnotes}
+\usepackage{hyperendnotes}
+
+% \usepackage{pifont}
+\newcommand{\rem}[2]{\begin{center}\framebox[1\textwidth]{\parbox{.92\textwidth}{\hspace{-.037\textwidth} \lefthand \hspace{-.002\textwidth}   \emph{\bf#1}\\ #2}}\end{center}}
+
+\usepackage{framed}
+
+\newenvironment{cframed}[1][blue]
+  {\def\FrameCommand{\fboxsep=\FrameSep\fcolorbox{#1}{white}}%
+    \MakeFramed {\advance\hsize-\width \FrameRestore}}
+  {\endMakeFramed}
+
+
+\usepackage{enumitem}
+
+\newcommand{\inlinebox}[1]{\medskip\begin{framed}\noindent#1\end{framed}\medskip}
+
+\makeatletter
+\newcommand*{\shifttext}[2]{%
+  \settowidth{\@tempdima}{#2}%
+  \makebox[\@tempdima]{\hspace*{#1}#2}%
+}
+\makeatother
+
+% \newcommand{\inlineboxb}[1]{\shifttext{.7in}{\framebox{\parbox{.8\textwidth}{#1}}}\\}
+\definecolor{shadecolor}{rgb}{.95,0.95,0.95}
+\newcommand{\inlineboxb}[1]{\begin{framed}#1\end{framed}}
+
+\newcommand{\PMlinkname}[2]{\href{http://planetmath.org/#2.html}{#1}}
+
+\newenvironment{emptybar}{%
+  \def\FrameCommand{\hspace{12pt}}%
+  \MakeFramed {\advance\hsize-\width \FrameRestore}}%
+ {\endMakeFramed}
+
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+
+\setcounter{tocdepth}{4}
+\newcounter{example}
+\newenvironment{example}[1]{\refstepcounter{example}
+\framed
+\addcontentsline{toc}{paragraph}{\lefthand~#1}
+\hspace{-.048\textwidth} \lefthand \hspace{-.003\textwidth}
+{\bf \thechapter.\theexample~\emph{#1}} \emptybar \noindent \hspace{-.5em}}
+{\endemptybar \vspace*{-1em} \endframed}
+
+\newenvironment{mypar}[1]
+  {\vspace{-.135in}
+   \begin{paragraph}{#1}}%
+  {\end{paragraph}}
+
+\newenvironment{notate}[1]
+  {\begin{nota}[{\bf {\em #1}}]}%
+  {\end{nota}}
+
+%%% Integrating commands from various papers + compatibility stuff
+\newcommand{\Zizek}{\v{Z}i\v{z}ek}
+\def\subsubsubsection#1{\paragraph{#1}}
+%%% end of integrating commands from various papers
+
+%% some additional TOC configuration options
+\makeatletter
+  \renewcommand\ext@table{lof}
+\makeatother
+\renewcommand*{\cfttablename}{Tab.\space}
+\renewcommand*{\cftfigurename}{{\bf Fig.}\space}
+\renewcommand*{\listfigurename}{List of Figures and Tables} % NOT WORKING
+
+% scshape to set these to red
+\renewcommand*{\cftchapterfont}{\slshape}   
+\renewcommand*{\cftsectionfont}{\slshape}
+
+%%%
+%%%  BEGIN DOCUMENT!
+%%%
+\doublespacing
+\begin{document}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{table}
+\begin{center}
+\raisebox{3in}{\small
+\begin{tabular}{|p{.25\textwidth}|p{.25\textwidth}|p{.25\textwidth}|}
+\hline 
+% \multicolumn{1}{p{.25\textwidth}}{\textbf{Relevance}}
+\begin{center}(PM)
+\end{center}
+
+Ultimately relevance depends on peer review, and irrelevant content
+may be deleted.  Mechanisms to ensure that relevant content
+\emph{will} be added could be improved. &
+\begin{center}(WP)
+\end{center}
+ People contribute articles about what
+they're interested in; apart from this, rules like WP:WEIGHT come into
+play.& 
+\begin{center}(DO)
+\end{center}
+
+Anyone can upload projects (for ``full projects'', one time approval
+is needed), but getting changes into the core requires considerably
+more vetting. \\
+%\multicolumn{1}{p{.25\textwidth}}{\textbf{Quality}}
+Quality control is handled with corrections and the ``orphaning'' mechanism
+in case of nonresponsive authors.  Some articles are world-writeable,
+as in the wiki model. & Automated tools for spam and vandalism detection
+combined with a system of editorial oversight, in which Jimmy Wales
+has last say. & In addition to bug reports and feature requests handled
+through the issue tracker, modules can make use of an automated patch
+testing system.\\
+%\multicolumn{1}{p{.25\textwidth}}{\textbf{Scalability}}
+Peer review is distributed.  Links are handled automatically.  Caching
+is deployed where relevant; in particular, interlinking features are
+kept up to date. & The database and other infrastructure is massively
+scaled. There are many bots that help with small tasks. & In theory,
+anyone can join.  Earl Miles, NYCCamp 2012 keynote: ``\emph{There are
+  no insiders, except Dries; there are no outsiders, only resumes.}''
+\\
+% \multicolumn{1}{p{.25\textwidth}}{\textbf{Consistency}}
+Although automatic links and corrections can help with consistency,
+mainly PM relies on standards for proof and expository quality.
+&NPOV is the key rule, which works together with templates and other
+process tools to maintain community standards about style and
+content. & The project issue queues are the place to go when one
+module's changes breaks another's. The core of the project has
+considerable oversight in these
+matters.\\
+% \multicolumn{1}{p{.25\textwidth}}{\textbf{Motivation}}
+People are solving some of their learning, exposition, and social
+needs on the site by writing and reviewing articles and posting in the
+forums.& As of 2006, over 50\% of the site had been written by less
+than 1\% of the users; these days, paid editing is somewhat
+notorious.& Miles continued: ``\emph{To build a resume, find someone
+  who needs help, and help them.  Find something that needs doing, do
+  it.}'' \\ \hline
+\end{tabular}
+}
+\end{center}
+\caption{As typeset ``out of the box''}
+\end{table}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{table}
+\begin{center}
+\raisebox{3in}{\small
+\begin{tabular}{|p{.25\textwidth}|p{.25\textwidth}|p{.25\textwidth}|}
+\hline 
+% \multicolumn{1}{p{.25\textwidth}}{\textbf{Relevance}}
+\begin{center}(PM)
+\end{center}
+\nohyphens{
+Ultimately relevance depends on peer review, and irrelevant content
+may be deleted.  Mechanisms to ensure that relevant content
+\emph{will} be added could be improved. } &
+\begin{center}(WP)
+\end{center}
+\nohyphens{ People contribute articles about what
+they're interested in; apart from this, rules like WP:WEIGHT come into
+play.}& 
+\begin{center}(DO)
+\end{center}
+\nohyphens{
+Anyone can upload projects (for ``full projects'', one time approval
+is needed), but getting changes into the core requires considerably
+more vetting.} \\
+%\multicolumn{1}{p{.25\textwidth}}{\textbf{Quality}}
+\nohyphens{Quality control is handled through corrections and the ``orphaning'' mechanism
+in case of nonresponsive authors.  Some articles are world-writeable,
+as in the wiki model.} &\nohyphens{ Automated tools for spam and vandalism detection
+combined with a system of editorial oversight, in which Jimmy Wales
+has last say.} &\nohyphens{ In addition to bug reports and feature requests handled
+through the issue tracker, modules can make use of an automated patch
+testing system.}\\
+%\multicolumn{1}{p{.25\textwidth}}{\textbf{Scalability}}
+\nohyphens{Peer review is distributed.  Links are handled automatically.  Caching
+is deployed where relevant; in particular, interlinking features are
+kept up to date. }& \nohyphens{The database and other infrastructure is massively
+scaled. There are many bots that help with small tasks. }& \nohyphens{In theory,
+anyone can join.  Earl Miles, NYCCamp 2012 keynote: ``\emph{There are
+  no insiders, except Dries; there are no outsiders, only resumes.}''}
+\\
+% \multicolumn{1}{p{.25\textwidth}}{\textbf{Consistency}}
+\nohyphens{Although automatic links and corrections can help with consistency,
+mainly PM relies on standards for proof and expository quality.}
+&\nohyphens{NPOV is the key rule, which works together with templates and other
+process tools to maintain community standards about style and
+content.} & \nohyphens{The project issue queues are the place to go when one
+module's changes breaks another's. The core of the project has
+considerable oversight in these
+matters.}\\
+% \multicolumn{1}{p{.25\textwidth}}{\textbf{Motivation}}
+\nohyphens{People are solving some of their learning, exposition, and social
+needs on the site by writing and reviewing articles and posting in the
+forums.}& \nohyphens{As of 2006, over 50\% of the site had been written by less
+than 1\% of the users; these days, paid editing is somewhat
+notorious.}& \nohyphens{Miles continued: ``\emph{To build a resume, find someone
+  who needs help, and help them.  Find something that needs doing, do
+  it.}}'' \\ \hline
+\end{tabular}
+}
+\end{center}
+\caption{Attempt to control hypenation by using $\backslash$nohyphens\{...\}}
+\end{table}
+
+\end{document}
